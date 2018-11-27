@@ -9,20 +9,13 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class GetRequester {
 
-	public static void main(String[] args) throws Exception {
-
-		GetRequester http = new GetRequester();
-
-		System.out.println("Testing 1 - Send Http GET request");
-		http.sendGet();
-
-	}
+	
 
 	// HTTP GET request
-	private void sendGet() throws Exception {
+	public String sendGet(String finalurl) throws Exception {
 
-		String url = "http://i2j.openode.io/task/5447";
-		
+		String url = "http://i2j.openode.io";
+		url = url + finalurl;
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -44,8 +37,11 @@ public class GetRequester {
 		}
 		in.close();
 
-		//print result
 		System.out.println(response.toString());
-
+		return response.toString();
+		
 	}
+	
+	
+	
 	}
