@@ -7,11 +7,6 @@ import java.util.Map;
 public class Parser {
 
 	public Parser() {
-		// TODO Auto-generated constructor stub
-		//{"id":"s195206","tasks":["/task/3070","
-		///task/5105","/task/5586","/task/5590","/task/8423",
-		//"/task/5473","/task/6528","/task/3383","/task/8386","/task/8016"]}
-		//String json = "{id:s113867}";
 	}
 	
 	public Map<String, String> parse(String jSON) {

@@ -1,4 +1,4 @@
-package test;
+package http;
 
 class TestGetRequester {
 //test the url is valid
@@ -8,5 +8,3 @@ class TestGetRequester {
 // 
 	
 	}
-
-}
