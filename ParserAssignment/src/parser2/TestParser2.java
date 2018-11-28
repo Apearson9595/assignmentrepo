@@ -15,6 +15,6 @@ public class TestParser2 {
 		@Test public void testText() throws IOException {
 			Parser2 parser = new Parser2();
 			Object data = parser.parse(new StringReader("say what?"));
-			assertEquals("say what?", data.text());
+			assertEquals("say what?", data);
 		}
 	}
