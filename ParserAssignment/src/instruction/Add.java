@@ -1,17 +1,18 @@
-package Instruction;
+package instruction;
 
-public class Multiply {
+public class Add implements Instruction{
 
-	public Multiply () {
+	public Add () {
 	}
-	public String domultiply(String params) {
+	@Override
+	public String doInstruction(String params) {
 		
 		String[] splitString = params.split(",");
 		String param1 = splitString [0];
 		String param2 = splitString [1];
 		int i = Integer.parseInt(param1);
 		int n = Integer.parseInt(param2);
-		int result = i * n;
+		int result = i + n;
 		return Integer.toString(result);
 		
 

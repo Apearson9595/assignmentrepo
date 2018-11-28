@@ -1,10 +1,11 @@
-package Instruction;
+package instruction;
 
-public class Concat {
+public class Concat implements Instruction{
 
 	public Concat() {
 	}
-		public String doconcat(String params) {
+	@Override
+		public String doInstruction(String params) {
 			
 			String[] splitString = params.split(",");
 			String param1 = splitString [0];

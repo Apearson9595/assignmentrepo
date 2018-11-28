@@ -1,13 +1,14 @@
 package main;
 
+import java.io.IOException;
 import java.util.Map;
 
-import Instruction.Add;
-import Instruction.Concat;
-import Instruction.Instruction;
-import Instruction.Add;
 import http.GetRequester;
 import http.PostResponse;
+import instruction.Add;
+import instruction.Concat;
+import instruction.Instruction;
+import instruction.Multiply;
 import parser.Parser;
 
 public class Main {
@@ -29,28 +30,28 @@ public class Main {
 			String task = http.sendGet(parserResponse);
 			Map<String, String> taskresponsemap = parser.parsetask(task);
 			
-			//add process
-			Add add = new Add();
+			String taskinstruction = taskresponsemap.get("instruction");
 			String parameters = taskresponsemap.get("parameters");
-			String answer = add.doadd(parameters);
 			String responseurl = taskresponsemap.get("responseurl");
-			
-			//multiply  process
-			//Multiply multiply = new Multiply();
-			//String parameters = taskresponsemap.get("parameters");
-			//String answer = multiply.domultiply(parameters);
-			//String responseurl = taskresponsemap.get("responseurl");
-			
-			//concat  process
-			//Concat concat = new Concat();
-			//String parameters = taskresponsemap.get("parameters");
-			//String answer = concat.doconcat(parameters);
-			//String responseurl = taskresponsemap.get("responseurl");
-			
+			String answer = null;
+			Instruction instruction = null;
+			if (taskinstruction.equals ("add") ) {
+				instruction = new Add();
+				}
+			else if (taskinstruction.equals ("multiply") ) {
+				instruction = new Multiply();
+				}
+			else if (taskinstruction.equals ("concat") ) {
+				instruction = new Concat();
+				}
+			else {
+				throw new IOException("not a valid instruction");
+			}
+			answer = instruction.doInstruction(parameters);	
 			PostResponse post = new PostResponse();
-			System.out.println("Send POST request with answer");	
-     		post.sendPost(responseurl,answer);
-     	    				
+			System.out.println("Send POST request with answer");
+			post.sendPost(responseurl,answer);
+     				
 		}
 }
 
