@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.io.StringReader;
 import org.junit.Test;
-import parser2.JsonSymbol;
+import parser2.JsonSymbol.Type;
 import parser2.LexerParser;
-import parser2.Type;
 
 
 public class TestLexer {
@@ -36,21 +35,22 @@ public void testSpace() throws IOException {
 @Test
 public void testSingleOpen() throws IOException {
 	LexerParser lex = new LexerParser(new StringReader("{"));
-	JsonSymbol symbol = lex.next();
-	assertEquals(Type.OPEN_CURLY, symbol.type);
+	assertNextSymbol(lex, Type.OPEN_CURLY);
 }
 @Test
 public void testSingleClose() throws IOException {
 	LexerParser lex = new LexerParser(new StringReader("}"));
-	
-	JsonSymbol symbol = lex.next();
-	assertEquals(Type.CLOSE_CURLY, symbol.type);
+	assertNextSymbol(lex, Type.CLOSE_CURLY);
 }
 @Test
-public void testSingleSlash() throws IOException {
+public void testSingleComma() throws IOException {
 	LexerParser lex = new LexerParser(new StringReader(","));
-	JsonSymbol symbol = lex.next();
-	assertEquals(Type.COMMA, symbol.type);
+	assertNextSymbol(lex, Type.COMMA);
+}
+@Test
+public void testSingleOpenArray() throws IOException{
+	LexerParser lex = new LexerParser(new StringReader("["));
+	assertNextSymbol(lex, Type.OPEN_ARRAY);
 }
 @Test
 public void testCombination() throws IOException {
@@ -60,6 +60,39 @@ public void testCombination() throws IOException {
 	assertNextSymbol (lex, Type.CLOSE_CURLY);
 	assertNull(lex.next());
 }
+@Test
+public void testTaskCombination() throws IOException {
+	LexerParser lex = new LexerParser(new StringReader("/task/123"));
+	assertNextSymbol(lex, Type.STRING, "/task/123");
+	assertNull(lex.next());
+}
+@Test
+public void testFullTaskCombination() throws IOException {
+	LexerParser lex = new LexerParser(new StringReader("{\"id\":\"S195206\"  ,\"tasks\":[\"/task/123\"]}"));
+	assertNextSymbol(lex, Type.OPEN_CURLY);
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "id");
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.COLON);
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "S195206");
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.SPACE);
+	assertNextSymbol(lex, Type.COMMA);
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "tasks");
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.COLON);
+	assertNextSymbol(lex, Type.OPEN_ARRAY);
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "/task/123");
+	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.CLOSE_ARRAY);
+	assertNextSymbol(lex, Type.CLOSE_CURLY);
+	assertNull(lex.next());
+}
+
+
 void assertNextSymbol(LexerParser lex, Type type, String value) throws
 IOException {
 JsonSymbol symbol = lex.next();
