@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import parser2.JsonSymbol.Type;
 
@@ -23,24 +25,71 @@ public class Parser2 {
 		return Jsondoc;
 		}
 		
-		public JSONDocument parseObject(LexerParser lex) throws IOException {
-			JSONObject object = new JSONObject();
-			JsonSymbol symbol = lex.next();
-			String key = symbol.value;
-			JsonSymbol colon = lex.next();
-			JsonSymbol value = lex.next();
-			JSONString string = new JSONString(value.value);
-			object.addToMap(key,string);
+	JSONDocument parseObject(LexerParser lex) throws IOException { 			
+	JSONObject object = new JSONObject(); 	
+	Type lastType =Type.COMMA;
+	String key = null;
+	while (true) {
+		JsonSymbol symbol = lex.next(); 
+		if (symbol.type.equals(Type.STRING) && lastType.equals(Type.COMMA) ){
+			key = symbol.value;			
+		}
+		else if (symbol.type.equals (Type.COLON)) {
+			lastType =Type.COLON;
+		}
+		else if (symbol.type.equals(Type.STRING) && lastType.equals(Type.COLON)) {
+			JSONString value = new JSONString (symbol.value);
+			object.addToMap(key, value);
+		}
+		else if (symbol.type.equals (Type.COMMA)) {
+			lastType =Type.COMMA;
+		}
+		
+		else if (symbol.type == Type.CLOSE_CURLY) { 		
+		
 			return object;
-			}
-	
+		}
+	}
+ 	
+	}
 	public JSONDocument parseArray(LexerParser lex) throws IOException {
 		JSONArray array = new JSONArray();
-		JsonSymbol symbol = lex.next();
-		JSONString string = new JSONString(symbol.value);
-		array.addToArray(string);
-		return array;
+		Type lastType =Type.COMMA;	
+		while (true){
+			JsonSymbol symbol = lex.next();
+			if (symbol.type.equals(Type.STRING)&& lastType.equals(Type.COMMA)) {
+				JSONString string = new JSONString(symbol.value);
+				array.addToArray(string);
+				lastType =symbol.type;
+			}
+			else if (symbol.type.equals(Type.COMMA)){
+				if(lastType == Type.COMMA) {
+					throw new IOException("double comma not valid");
+				}
+				lastType =symbol.type;				
+			}
+			else if (symbol.type.equals(Type.CLOSE_ARRAY)){
+				return array;		
+			}
+			else if (symbol.type == Type.OPEN_CURLY && lastType.equals(Type.COMMA)) {
+				JSONDocument Jsondoc = parseObject(lex);
+				array.addToArray(Jsondoc);
+				lastType =symbol.type;	
+			}
+			else if (symbol.type == Type.OPEN_ARRAY && lastType.equals(Type.COMMA)) {
+				JSONDocument Jsondoc = parseArray(lex);
+				lastType =symbol.type;	
+				array.addToArray(Jsondoc);
+			}
+			else throw new IOException("not valid array");
 		}
+		}
+	
+	
+	
+	
+	
+	
 	
 		private String text(LexerParser lex) throws IOException {
 			StringBuilder ret = new StringBuilder();

@@ -12,6 +12,6 @@ public class JSONArray extends JSONDocument {
 		}
 	@Override
 	public String toString() {
-		return jsonList.toString();
+		return jsonList.toString().replace(" ", "");
 		}
 }

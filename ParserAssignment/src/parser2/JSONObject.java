@@ -14,7 +14,7 @@ public class JSONObject extends JSONDocument{
 	}
 	@Override
 	public String toString() {
-		return mapObject.toString();
+		return mapObject.toString().replace(" ", "");
 		}
 
 
