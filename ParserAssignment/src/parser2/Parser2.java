@@ -21,7 +21,6 @@ public class Parser2 {
 		else if (symbol.type == Type.OPEN_CURLY) {
 			Jsondoc = parseObject(lex);	
 		}
-		
 		return Jsondoc;
 		}
 		
@@ -29,26 +28,56 @@ public class Parser2 {
 	JSONObject object = new JSONObject(); 	
 	Type lastType =Type.COMMA;
 	String key = null;
+	JSONDocument value = null;
 	while (true) {
 		JsonSymbol symbol = lex.next(); 
 		if (symbol.type.equals(Type.STRING) && lastType.equals(Type.COMMA) ){
-			key = symbol.value;			
+			key = symbol.value;
+			lastType =Type.STRING;
 		}
 		else if (symbol.type.equals (Type.COLON)) {
 			lastType =Type.COLON;
 		}
 		else if (symbol.type.equals(Type.STRING) && lastType.equals(Type.COLON)) {
-			JSONString value = new JSONString (symbol.value);
+			value = new JSONString (symbol.value);
 			object.addToMap(key, value);
+			lastType =Type.STRING;
+			
 		}
 		else if (symbol.type.equals (Type.COMMA)) {
+			if (lastType.equals(Type.COMMA) ) {
+				throw new IOException("Not expecting comma followed by comma");
+			}
+			else if(value == null) {
+				throw new IOException("Value required to create next key");
+			}
 			lastType =Type.COMMA;
+		}
+		
+		else if (symbol.type == Type.OPEN_CURLY) {
+			if (lastType!= Type.COLON) {
+				throw new IOException("Objects must start with valid key");
+			}
+			JSONDocument addToMap = parseObject(lex);
+			object.addToMap(key, addToMap);
+			lastType =symbol.type;	
+			
+		}
+		else if (symbol.type == Type.OPEN_ARRAY) {
+			if (lastType!= Type.COLON) {
+				throw new IOException("Objects must start with valid key");
+			}
+			JSONDocument Jsondoc = parseArray(lex);
+			lastType =symbol.type;	
+			object.addToMap(key, Jsondoc);
+	
 		}
 		
 		else if (symbol.type == Type.CLOSE_CURLY) { 		
 		
 			return object;
 		}
+		else throw new IOException("not valid object");
 	}
  	
 	}
@@ -84,14 +113,7 @@ public class Parser2 {
 			else throw new IOException("not valid array");
 		}
 		}
-	
-	
-	
-	
-	
-	
-	
-		private String text(LexerParser lex) throws IOException {
+	private String text(LexerParser lex) throws IOException {
 			StringBuilder ret = new StringBuilder();
 			sym: for (JsonSymbol symbol = lex.next(); symbol != null; symbol = lex.next()) {
 				switch(symbol.type) {
