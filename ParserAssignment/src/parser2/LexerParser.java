@@ -25,8 +25,6 @@ public class LexerParser {
 			return new JsonSymbol(Type.COLON);
 		if (',' == c)
 			return new JsonSymbol(Type.COMMA);
-		if ('"' == c)
-			return new JsonSymbol(Type.QUOTATION);
 		if ('[' == c)
 			return new JsonSymbol(Type.OPEN_ARRAY);
 		if (']' == c)
@@ -38,13 +36,16 @@ public class LexerParser {
 			if (-1 != c)reader.unread(c);
 			return new JsonSymbol(Type.SPACE);
 		}
-		if (Character.isLetterOrDigit(c) || '/' == c) {
+		
+		if ('"' == c) {
 			StringBuilder value = new StringBuilder();
+			value.append((char)c);
+			c = reader.read();
 			do {
 				value.append((char)c);
 				c = reader.read();
-			} while (Character.isLetterOrDigit(c) || '/' ==c); // eat extra whitespace
-			if (-1 != c)reader.unread(c);
+			} while (Character.isLetterOrDigit(c) || '/' ==c || c!= '"'); // eat extra whitespace
+			value.append((char)c);
 			return new JsonSymbol(Type.STRING, value.toString());
 			
 			}

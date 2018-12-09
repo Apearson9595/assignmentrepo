@@ -20,14 +20,14 @@ public class TestLexer {
 	}
 @Test
 public void testWord() throws IOException {
-	LexerParser lex = new LexerParser(new StringReader("hello"));
+	LexerParser lex = new LexerParser(new StringReader("\"hello\""));
 	JsonSymbol symbol = lex.next();
 	assertEquals(Type.STRING, symbol.type);
-	assertEquals("hello", symbol.value);
+	assertEquals("\"hello\"", symbol.value);
 }
 @Test
 public void testSpace() throws IOException {
-	LexerParser lex = new LexerParser(new StringReader(" \n\t  "));
+	LexerParser lex = new LexerParser(new StringReader(" "));
 	JsonSymbol symbol = lex.next();
 	assertEquals(Type.SPACE, symbol.type);
 	assertNull(lex.next());
@@ -54,39 +54,31 @@ public void testSingleOpenArray() throws IOException{
 }
 @Test
 public void testCombination() throws IOException {
-	LexerParser lex = new LexerParser(new StringReader("{ugh}"));
+	LexerParser lex = new LexerParser(new StringReader("{\"ugh\"}"));
 	assertNextSymbol (lex, Type.OPEN_CURLY);
-	assertNextSymbol (lex, Type.STRING, "ugh");
+	assertNextSymbol (lex, Type.STRING, "\"ugh\"");
 	assertNextSymbol (lex, Type.CLOSE_CURLY);
 	assertNull(lex.next());
 }
 @Test
 public void testTaskCombination() throws IOException {
-	LexerParser lex = new LexerParser(new StringReader("/task/123"));
-	assertNextSymbol(lex, Type.STRING, "/task/123");
+	LexerParser lex = new LexerParser(new StringReader("\"/task/123\""));
+	assertNextSymbol(lex, Type.STRING, "\"/task/123\"");
 	assertNull(lex.next());
 }
 @Test
 public void testFullTaskCombination() throws IOException {
 	LexerParser lex = new LexerParser(new StringReader("{\"id\":\"S195206\"  ,\"tasks\":[\"/task/123\"]}"));
 	assertNextSymbol(lex, Type.OPEN_CURLY);
-	assertNextSymbol(lex, Type.QUOTATION);
-	assertNextSymbol(lex, Type.STRING, "id");
-	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "\"id\"");
 	assertNextSymbol(lex, Type.COLON);
-	assertNextSymbol(lex, Type.QUOTATION);
-	assertNextSymbol(lex, Type.STRING, "S195206");
-	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "\"S195206\"");
 	assertNextSymbol(lex, Type.SPACE);
 	assertNextSymbol(lex, Type.COMMA);
-	assertNextSymbol(lex, Type.QUOTATION);
-	assertNextSymbol(lex, Type.STRING, "tasks");
-	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "\"tasks\"");
 	assertNextSymbol(lex, Type.COLON);
 	assertNextSymbol(lex, Type.OPEN_ARRAY);
-	assertNextSymbol(lex, Type.QUOTATION);
-	assertNextSymbol(lex, Type.STRING, "/task/123");
-	assertNextSymbol(lex, Type.QUOTATION);
+	assertNextSymbol(lex, Type.STRING, "\"/task/123\"");
 	assertNextSymbol(lex, Type.CLOSE_ARRAY);
 	assertNextSymbol(lex, Type.CLOSE_CURLY);
 	assertNull(lex.next());
