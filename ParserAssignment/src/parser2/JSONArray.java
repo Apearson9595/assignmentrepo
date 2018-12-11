@@ -5,6 +5,7 @@ import java.util.List;
 
 public class JSONArray extends JSONDocument {
 
+	@Override public JSONArray getAsArray() {return this;}
 	private List <JSONDocument> jsonList = new ArrayList<>();
 
 	public void addToArray(JSONDocument document) {
@@ -14,4 +15,10 @@ public class JSONArray extends JSONDocument {
 	public String toString() {
 		return jsonList.toString().replace(" ", "");
 		}
+	public JSONDocument get(int i) {return jsonList.get(i); }
+	
+	public List <JSONDocument> getList(){
+		return jsonList;
+	}
 }
+

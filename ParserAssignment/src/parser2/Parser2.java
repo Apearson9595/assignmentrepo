@@ -11,8 +11,8 @@ import parser2.JsonSymbol.Type;
 
 public class Parser2 {
 
-	public JSONDocument parse(Reader in) throws IOException {
-		LexerParser lex = new LexerParser(in);
+	public JSONDocument parse(String string) throws IOException {
+		LexerParser lex = new LexerParser(new StringReader (string));
 		JSONDocument Jsondoc = null;
 		JsonSymbol symbol = lex.next();
 		if (symbol.type == Type.OPEN_ARRAY) {
@@ -20,6 +20,9 @@ public class Parser2 {
 		}
 		else if (symbol.type == Type.OPEN_CURLY) {
 			Jsondoc = parseObject(lex);	
+		}
+		else {
+		throw new IOException ("not valid Json");
 		}
 		return Jsondoc;
 		}

@@ -9,8 +9,7 @@ public class JsonSymbol {
 		STRING, 
 		SPACE, 
 		OPEN_ARRAY, 
-		CLOSE_ARRAY, 
-		QUOTATION,
+		CLOSE_ARRAY,
 		OTHER
 	}
 	public final Type type;

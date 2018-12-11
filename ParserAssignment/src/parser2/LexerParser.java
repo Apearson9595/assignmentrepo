@@ -49,6 +49,19 @@ public class LexerParser {
 			return new JsonSymbol(Type.STRING, value.toString());
 			
 			}
+		if (Character.isDigit(c)) {
+			StringBuilder value = new StringBuilder();
+			value.append((char)c);
+			c = reader.read();
+			do {
+				value.append((char)c);
+				c = reader.read();
+			} while (Character.isDigit(c));
+			if (-1 != c)reader.unread(c);
+			return new JsonSymbol(Type.STRING, value.toString());
+			
+			}
 		return new JsonSymbol(Type.OTHER, Character.toString((char) c));
 	}
+	
 }

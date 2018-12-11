@@ -4,5 +4,5 @@ public interface Instruction {
 		/**
 		 * @return a description of the class
 		 */
-		String doInstruction(String params);
+		String doInstruction(String param1, String param2);
 }

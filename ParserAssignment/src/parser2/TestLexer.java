@@ -15,7 +15,6 @@ public class TestLexer {
 	public void testEmpty() throws IOException {
 		LexerParser lex = new LexerParser(new StringReader(""));
 		JsonSymbol symbol = lex.next();
-		System.out.println(symbol);
 		assertNull(symbol);
 	}
 @Test
@@ -96,5 +95,25 @@ void assertNextSymbol(LexerParser lex, Type type) throws IOException {
 assertNextSymbol(lex, type, null);
 }
 
+@Test
+public void testStringWithSpace() throws IOException {
+	LexerParser lex = new LexerParser(new StringReader("{\"DAVE BOB\"}"));
+	assertNextSymbol (lex, Type.OPEN_CURLY);
+	assertNextSymbol (lex, Type.STRING, "\"DAVE BOB\"");
+	assertNextSymbol (lex, Type.CLOSE_CURLY);
+	assertNull(lex.next());
+}
+
+@Test
+public void testArrayWithNumbers() throws IOException {
+	LexerParser lex = new LexerParser(new StringReader("[3979, 1990]"));
+	assertNextSymbol (lex, Type.OPEN_ARRAY);
+	assertNextSymbol (lex, Type.STRING, "3979");
+	assertNextSymbol(lex, Type.COMMA);
+	assertNextSymbol(lex, Type.SPACE);
+	assertNextSymbol (lex, Type.STRING, "1990");
+	assertNextSymbol (lex, Type.CLOSE_ARRAY);
+	assertNull(lex.next());
+}
 
 }
