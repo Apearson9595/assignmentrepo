@@ -33,35 +33,50 @@ public class LexerParser {
 			do {
 				c = reader.read();
 			} while (Character.isWhitespace(c)); // eat extra whitespace
-			if (-1 != c)reader.unread(c);
+			if (-1 != c)
+				reader.unread(c);
 			return new JsonSymbol(Type.SPACE);
 		}
-		
+
 		if ('"' == c) {
 			StringBuilder value = new StringBuilder();
-			value.append((char)c);
+			value.append((char) c);
 			c = reader.read();
 			do {
-				value.append((char)c);
+				value.append((char) c);
 				c = reader.read();
-			} while (Character.isLetterOrDigit(c) || '/' ==c || c!= '"'); // eat extra whitespace
-			value.append((char)c);
+			} while (Character.isLetterOrDigit(c) || '/' == c || c != '"');
+			value.append((char) c);
 			return new JsonSymbol(Type.STRING, value.toString());
-			
-			}
+
+		}
+		if (Character.isLetter(c)) {
+			StringBuilder value = new StringBuilder();
+			value.append((char) c);
+			c = reader.read();
+			do {
+				value.append((char) c);
+				c = reader.read();
+			} while (Character.isLetter(c));
+			if (-1 != c)
+				reader.unread(c);
+			return new JsonSymbol(Type.STRING, value.toString());
+
+		}
 		if (Character.isDigit(c)) {
 			StringBuilder value = new StringBuilder();
-			value.append((char)c);
+			value.append((char) c);
 			c = reader.read();
 			do {
-				value.append((char)c);
+				value.append((char) c);
 				c = reader.read();
 			} while (Character.isDigit(c));
-			if (-1 != c)reader.unread(c);
+			if (-1 != c)
+				reader.unread(c);
 			return new JsonSymbol(Type.STRING, value.toString());
-			
-			}
+
+		}
 		return new JsonSymbol(Type.OTHER, Character.toString((char) c));
 	}
-	
+
 }

@@ -9,8 +9,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class GetRequester {
 
-	
-
 	// HTTP GET request
 	public String sendGet(String finalurl) throws Exception {
 
@@ -22,13 +20,11 @@ public class GetRequester {
 		// optional default is GET
 		con.setRequestMethod("GET");
 
-
 		int responseCode = con.getResponseCode();
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
 
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
@@ -39,9 +35,7 @@ public class GetRequester {
 
 		System.out.println(response.toString());
 		return response.toString();
-		
+
 	}
-	
-	
-	
-	}
+
+}

@@ -6,5 +6,5 @@ class TestGetRequester {
 // test catch exception
 // test print screen response
 // 
-	
-	}
+
+}

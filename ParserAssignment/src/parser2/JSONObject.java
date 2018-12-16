@@ -17,8 +17,21 @@ public class JSONObject extends JSONDocument{
 	}
 	@Override
 	public String toString() {
-		return mapObject.toString().replace(" ", "");
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append('{');
+		for (Map.Entry<String, JSONDocument> entry:mapObject.entrySet()) {
+			stringBuffer.append(entry.getKey());
+			stringBuffer.append('=');
+			stringBuffer.append(entry.getValue());					
+		stringBuffer.append(',');
 		}
+		String s = stringBuffer.toString();		
+		if(s.charAt(s.length()-1)==',') {
+			s = s.substring(0, s.length()-1);
+		}
+		s = s + "}";
+		return s;
+	}
 	public JSONDocument get(String key) {
 		return mapObject.get(key);
 		}
