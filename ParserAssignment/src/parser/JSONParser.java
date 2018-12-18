@@ -1,30 +1,38 @@
-package parser2;
+package parser;
 
 import java.io.IOException;
-import java.io.PushbackReader;
-import java.io.Reader;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
+import json.JSONArray;
+import json.JSONDocument;
+import json.JSONObject;
+import json.JSONString;
+import json.JsonSymbol;
+import json.JsonSymbol.Type;
 
-import parser2.JsonSymbol.Type;
+/**
+ * Class to parse JSON
+ */
+public class JSONParser {
 
-public class Parser2 {
-
+	/**
+	 * Parsers the given JSON string into the JSONDocument tree
+	 * @param string - the JSON string to parse
+	 * @return - return JSONDocument representation of JSON
+	 * @throws IOException - If it is not valid JSON.
+	 */
 	public JSONDocument parse(String string) throws IOException {
-		LexerParser lex = new LexerParser(new StringReader(string));
+		JSONLexer lex = new JSONLexer(new StringReader(string));
 		JSONDocument Jsondoc = null;
 		JsonSymbol symbol = lex.next();
-		if (symbol.type == Type.OPEN_ARRAY) {
-			Jsondoc = parseArray(lex);
-		} else if (symbol.type == Type.OPEN_CURLY) {
+		if (symbol.type == Type.OPEN_CURLY) {
 			Jsondoc = parseObject(lex);
 		} else {
-			throw new IOException("not valid Json");
+			throw new IOException("not valid Json - expects { to begin JSON ");
 		}
 		return Jsondoc;
 	}
-	JSONDocument parseObject(LexerParser lex) throws IOException {
+	
+	private JSONDocument parseObject(JSONLexer lex) throws IOException {
 		JSONObject object = new JSONObject();
 		Type lastType = Type.COMMA;
 		String key = null;
@@ -78,7 +86,7 @@ public class Parser2 {
 		}
 	}
 
-	public JSONDocument parseArray(LexerParser lex) throws IOException {
+	private JSONDocument parseArray(JSONLexer lex) throws IOException {
 		JSONArray array = new JSONArray();
 		Type lastType = Type.COMMA;
 		while (true) {
@@ -109,37 +117,5 @@ public class Parser2 {
 			else
 				throw new IOException("not valid array");
 		}
-	}
-
-	private String text(LexerParser lex) throws IOException {
-		StringBuilder ret = new StringBuilder();
-		sym: for (JsonSymbol symbol = lex.next(); symbol != null; symbol = lex.next()) {
-			switch (symbol.type) {
-			case STRING:
-				ret.append(symbol.value);
-				break;
-			case SPACE:
-				ret.append(" ");
-				break;
-			case OTHER:
-				ret.append(symbol.value);
-				break;
-			case COMMA:
-				ret.append(",");
-				break;
-			default:
-				break sym; // to stop loop
-			// TODO need to add the rest from Type
-			// TODO See page 22 and implement
-			}
-		}
-		return ret.toString();
-
-	}
-
-	private JSONObject element(LexerParser lex) throws IOException {
-		// TODO
-		return null;
-
 	}
 }

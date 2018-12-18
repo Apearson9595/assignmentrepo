@@ -1,12 +1,14 @@
-package parser2;
+package json;
 
-import java.util.List;
-
+/**
+ * class to represent a JSONString
+ *
+ */
 public class JSONString extends JSONDocument {
 
 	private String jsonString;
 	
-	JSONString(String jsonString) {
+	public JSONString(String jsonString) {
 		this.jsonString = jsonString;		
 	}
 	@Override

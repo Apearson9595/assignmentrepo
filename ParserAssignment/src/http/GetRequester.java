@@ -7,11 +7,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
+/**
+ * Class used for GET HTTP request
+ *
+ */
 public class GetRequester {
 
-	// HTTP GET request
-	public String sendGet(String finalurl) throws Exception {
-
+	/**
+	 * Sends a GET HTTP request to external server (http://i2j.openode.io)
+	 * Appending the finalurl parameter to complete the URL
+	 * @param finalurl This is the text to append to the server URL
+	 * @return The return JSON response from the GET request 
+	 * @throws Exception if the server responds with anything other than 200
+	 */
+	public String sendGet(String finalurl) throws Exception { 
 		String url = "http://i2j.openode.io";
 		url = url + finalurl;
 		URL obj = new URL(url);

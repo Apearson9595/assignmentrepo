@@ -1,10 +1,11 @@
-package parser2;
+package json;
 
 import java.util.HashMap;
 import java.util.Map;
-
-//used extends over Implements as the methods are inherited but more mutable
-//to add more methods when needed
+/**
+ * Class that represents a JSONObject
+ *
+ */
 public class JSONObject extends JSONDocument{
 	
 	@Override
@@ -12,6 +13,11 @@ public class JSONObject extends JSONDocument{
 	
 	private Map <String, JSONDocument> mapObject = new HashMap<>();
 
+	/**
+	 * adds the key and value to the JSON object
+	 * @param key - of the pair
+	 * @param value - value of the pair
+	 */
 	public void addToMap(String key, JSONDocument value) {
 		mapObject.put(key,value); 
 	}
@@ -32,6 +38,12 @@ public class JSONObject extends JSONDocument{
 		s = s + "}";
 		return s;
 	}
+	/**
+	 * retrieves the JSONDocument associated with the key provided
+	 * if key is not present returns null
+	 * @param key - the key to look up
+	 * @return the value of given key.
+	 */
 	public JSONDocument get(String key) {
 		return mapObject.get(key);
 		}

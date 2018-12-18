@@ -1,8 +1,12 @@
-package parser2;
+package json;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents a JSON Array
+ *
+ */
 public class JSONArray extends JSONDocument {
 
 	@Override
@@ -12,6 +16,10 @@ public class JSONArray extends JSONDocument {
 
 	private List<JSONDocument> jsonList = new ArrayList<>();
 
+	/**
+	 * adds the JSON document to the Array
+	 * @param document is the JSONDocument to add to the Array
+	 */
 	public void addToArray(JSONDocument document) {
 		jsonList.add(document);
 	}
@@ -30,10 +38,17 @@ public class JSONArray extends JSONDocument {
 		return stringBuffer.toString();
 	}
 
+	/**
+	 * @param i - the index of the JSONDocument to get from the array
+	 * @return - The JSONdocument at the current index of i
+	 */
 	public JSONDocument get(int i) {
 		return jsonList.get(i);
 	}
 
+	/**
+	 * @return A list representation of the JSONArray
+	 */
 	public List<JSONDocument> getList() {
 		return jsonList;
 	}

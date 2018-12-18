@@ -1,9 +1,9 @@
 package instruction;
 
+/**
+ * The add instruction implementation 
+ */
 public class Add implements Instruction {
-
-	public Add() {
-	}
 
 	@Override
 	public String doInstruction(String param1, String param2) {

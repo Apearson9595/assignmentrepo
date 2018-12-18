@@ -1,18 +1,29 @@
-package parser2;
+package parser;
 
 import java.io.IOException;
 import java.io.Reader;
-import parser2.JsonSymbol.Type;
+
+import json.JsonSymbol;
+import json.JsonSymbol.Type;
+
 import java.io.PushbackReader;
 
-public class LexerParser {
+/**
+ * class to perform Lexical Analysis of JSON
+ */
+public class JSONLexer {
 
 	private final PushbackReader reader;
 
-	public LexerParser(Reader reader) {
+	public JSONLexer(Reader reader) {
 		this.reader = new PushbackReader(reader);
 	}
 
+	/**
+	 * reads the JSON and returns the next JSON symbol
+	 * @return the next JSON symbol
+	 * @throws IOException if characters can not be read
+	 */
 	public JsonSymbol next() throws IOException {
 		int c = reader.read();
 		if (-1 == c)
