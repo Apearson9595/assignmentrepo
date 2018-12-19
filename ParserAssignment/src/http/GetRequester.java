@@ -10,6 +10,7 @@ import java.net.URL;
  *
  */
 public class GetRequester {
+	
 
 	/**
 	 * Sends a GET HTTP request to external server (http://i2j.openode.io) Appending
