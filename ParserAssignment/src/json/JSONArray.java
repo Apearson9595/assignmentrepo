@@ -8,34 +8,20 @@ import java.util.List;
  *
  */
 public class JSONArray extends JSONDocument {
+	private List<JSONDocument> jsonList = new ArrayList<>();
 
 	@Override
 	public JSONArray getAsArray() {
 		return this;
 	}
 
-	private List<JSONDocument> jsonList = new ArrayList<>();
-
 	/**
 	 * adds the JSON document to the Array
+	 * 
 	 * @param document is the JSONDocument to add to the Array
 	 */
 	public void addToArray(JSONDocument document) {
 		jsonList.add(document);
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append('[');
-		for (int i = 0; i < jsonList.size(); i++) {
-			if (i != 0) {
-				stringBuffer.append(',');
-			}
-			stringBuffer.append(jsonList.get(i));
-		}
-		stringBuffer.append(']');
-		return stringBuffer.toString();
 	}
 
 	/**
@@ -51,5 +37,19 @@ public class JSONArray extends JSONDocument {
 	 */
 	public List<JSONDocument> getList() {
 		return jsonList;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append('[');
+		for (int i = 0; i < jsonList.size(); i++) {
+			if (i != 0) {
+				stringBuffer.append(',');
+			}
+			stringBuffer.append(jsonList.get(i));
+		}
+		stringBuffer.append(']');
+		return stringBuffer.toString();
 	}
 }

@@ -21,6 +21,7 @@ public class JSONLexer {
 
 	/**
 	 * reads the JSON and returns the next JSON symbol
+	 * 
 	 * @return the next JSON symbol
 	 * @throws IOException if characters can not be read
 	 */

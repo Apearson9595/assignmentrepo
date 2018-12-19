@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.io.StringReader;
-
 import org.junit.Test;
 
 import json.JSONDocument;
@@ -157,22 +155,23 @@ public class TestJSONParser {
 				data.toString());
 
 	}
-	
+
 	@Test
 	public void testbollean() throws IOException {
 		JSONParser parser = new JSONParser();
 		JSONDocument data = parser.parse("{\"a\":[true, false, null]}");
 		System.out.println(data.toString());
-		assertEquals("{\"a\"=[true,false,null]}",data.toString());
+		assertEquals("{\"a\"=[true,false,null]}", data.toString());
 	}
+
 	@Test
 	public void testbolleanSpace() throws IOException {
 		JSONParser parser = new JSONParser();
-		JSONDocument data = parser
-				.parse("{\"z\":[\"te st\"]}");
+		JSONDocument data = parser.parse("{\"z\":[\"te st\"]}");
 		System.out.println(data.toString());
-		assertEquals("{\"z\"=[\"te st\"]}",data.toString());
+		assertEquals("{\"z\"=[\"te st\"]}", data.toString());
 	}
+
 	@Test
 	public void testObjectSpaces() throws IOException {
 		JSONParser parser = new JSONParser();

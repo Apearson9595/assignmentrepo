@@ -14,10 +14,11 @@ public class PostResponse {
 
 	/**
 	 * Sends a POST HTTP request to external server (http://i2j.openode.io)
-	 * Appending the posturl parameter to complete the URL
-	 * the answer parameter is the contents of the POST request
+	 * Appending the posturl parameter to complete the URL the answer parameter is
+	 * the contents of the POST request
+	 * 
 	 * @param posturl This is the text to append to the server URL
-	 * @param answer This is the body of the post request
+	 * @param answer  This is the body of the post request
 	 * @throws Exception if the server responds with anything other than 200
 	 */
 	public void sendPost(String posturl, String answer) throws Exception {

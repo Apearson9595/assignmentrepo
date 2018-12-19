@@ -1,7 +1,7 @@
 package parser;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -29,15 +29,15 @@ public class TestLexer {
 	public void testWord() throws IOException {
 		JSONLexer lex = new JSONLexer(new StringReader("\"hello\""));
 		JsonSymbol symbol = lex.next();
-		assertEquals(Type.STRING, symbol.type);
-		assertEquals("\"hello\"", symbol.value);
+		assertEquals(Type.STRING, symbol.getType());
+		assertEquals("\"hello\"", symbol.getValue());
 	}
 
 	@Test
 	public void testTab() throws IOException {
 		JSONLexer lex = new JSONLexer(new StringReader("	"));
 		JsonSymbol symbol = lex.next();
-		assertEquals(Type.SPACE, symbol.type);
+		assertEquals(Type.SPACE, symbol.getType());
 		assertNull(lex.next());
 	}
 
@@ -45,7 +45,7 @@ public class TestLexer {
 	public void testSpace() throws IOException {
 		JSONLexer lex = new JSONLexer(new StringReader(" "));
 		JsonSymbol symbol = lex.next();
-		assertEquals(Type.SPACE, symbol.type);
+		assertEquals(Type.SPACE, symbol.getType());
 		assertNull(lex.next());
 	}
 
@@ -115,8 +115,8 @@ public class TestLexer {
 
 	public void assertNextSymbol(JSONLexer lex, Type type, String value) throws IOException {
 		JsonSymbol symbol = lex.next();
-		assertEquals(type, symbol.type);
-		assertEquals(value, symbol.value);
+		assertEquals(type, symbol.getType());
+		assertEquals(value, symbol.getValue());
 	}
 
 	public void assertNextSymbol(JSONLexer lex, Type type) throws IOException {
@@ -143,6 +143,7 @@ public class TestLexer {
 		assertNextSymbol(lex, Type.CLOSE_ARRAY);
 		assertNull(lex.next());
 	}
+
 	@Test
 	public void testArrayWithBooleanNumbersStringNull() throws IOException {
 		JSONLexer lex = new JSONLexer(new StringReader("[3979, true, false, \"hello\", null]"));
@@ -158,7 +159,7 @@ public class TestLexer {
 		assertNextSymbol(lex, Type.SPACE);
 		assertNextSymbol(lex, Type.STRING, "\"hello\"");
 		assertNextSymbol(lex, Type.COMMA);
-		assertNextSymbol(lex, Type.SPACE);		
+		assertNextSymbol(lex, Type.SPACE);
 		assertNextSymbol(lex, Type.STRING, "null");
 		assertNextSymbol(lex, Type.CLOSE_ARRAY);
 		assertNull(lex.next());

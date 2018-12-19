@@ -5,15 +5,23 @@ package json;
  */
 public class JsonSymbol {
 	/**
-	 *enum representing all the JSON elements
+	 * enum representing all the JSON elements
 	 *
 	 */
 	public enum Type {
-		OPEN_CURLY, CLOSE_CURLY, COMMA, COLON, STRING, SPACE, OPEN_ARRAY, CLOSE_ARRAY, OTHER
+		OPEN_CURLY, 
+		CLOSE_CURLY, 
+		COMMA, 
+		COLON, 
+		STRING, 
+		SPACE, 
+		OPEN_ARRAY, 
+		CLOSE_ARRAY, 
+		OTHER
 	}
 
-	public final Type type;
-	public final String value;
+	private final Type type;
+	private final String value;
 
 	public JsonSymbol(Type type, String value) {
 		this.type = type;
@@ -22,5 +30,13 @@ public class JsonSymbol {
 
 	public JsonSymbol(Type type) {
 		this(type, null);
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public String getValue() {
+		return value;
 	}
 }

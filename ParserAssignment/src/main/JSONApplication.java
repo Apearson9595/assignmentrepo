@@ -14,5 +14,5 @@ public class JSONApplication {
 
 		JSONArray taskurls = new UrlRetriever().retrieveTasks("S195206");
 		new TaskProcessor().processTasks(taskurls);
-		}
+	}
 }
