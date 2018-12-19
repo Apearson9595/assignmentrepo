@@ -1,5 +1,7 @@
 package task;
 
+import java.io.FileWriter;
+
 import http.GetRequester;
 import json.JSONArray;
 import json.JSONDocument;
@@ -11,7 +13,10 @@ import parser.JSONParser;
  *
  */
 public class UrlRetriever {
-
+private final FileWriter writer;
+	public UrlRetriever(FileWriter writer) {
+		this.writer = writer;
+}
 	/**
 	 * retrieves taskurls for a given studnetId
 	 * 
@@ -25,6 +30,7 @@ public class UrlRetriever {
 		GetRequester http = new GetRequester();
 		String requesturl = "/student?id=" + studentId;
 		String response = http.sendGet(requesturl);
+		writer.write(response + "\n");
 		JSONParser parser = new JSONParser();
 		JSONDocument parserResponse = parser.parse(response);
 		JSONObject jsonObject = parserResponse.getAsObject();

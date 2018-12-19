@@ -1,5 +1,6 @@
 package task;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 import http.GetRequester;
@@ -16,6 +17,12 @@ import parser.JSONParser;
  */
 public class TaskProcessor {
 
+	private FileWriter writer;
+
+	public TaskProcessor(FileWriter writer) {
+		this.writer = writer;
+	}
+
 	/**
 	 * retrieves the tasks from the taskurls, performs the instructions and posts
 	 * the answer to the expected url
@@ -31,6 +38,7 @@ public class TaskProcessor {
 			try {
 				taskUrl = document.toString().replaceAll("\"", "");
 				String task = http.sendGet(taskUrl);
+				writer.write(task + "\n");
 				JSONObject taskResponse = parser.parse(task).getAsObject();
 
 				String taskInstruction = taskResponse.get("\"instruction\"").toString().replaceAll("\"", "");
@@ -41,9 +49,12 @@ public class TaskProcessor {
 				PostResponse post = new PostResponse();
 				String answer = new InstructionProcessor().process(taskInstruction, param1, param2);
 				post.sendPost(responseurl, answer);
+				writer.write(answer + "\n");
 			} catch (IOException e) {
 				PostResponse post = new PostResponse();
-				post.sendPost(taskUrl, "Error " + e.getMessage());
+				String error = "Error " + e.getMessage();
+				post.sendPost(taskUrl, error);
+				writer.write( error + "\n");
 			}
 		}
 	}

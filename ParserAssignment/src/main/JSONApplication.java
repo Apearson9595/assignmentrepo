@@ -1,5 +1,7 @@
 package main;
 
+import java.io.FileWriter;
+
 import json.JSONArray;
 import task.TaskProcessor;
 import task.UrlRetriever;
@@ -11,8 +13,9 @@ import task.UrlRetriever;
 public class JSONApplication {
 
 	public static void main(String[] args) throws Exception {
-
-		JSONArray taskurls = new UrlRetriever().retrieveTasks("S195206");
-		new TaskProcessor().processTasks(taskurls);
+		FileWriter writer = new FileWriter("C:/Users/607276723/git/Assignmentrepo/ParserAssignment/src/main/output.txt");
+		JSONArray taskurls = new UrlRetriever(writer).retrieveTasks("S195206");
+		new TaskProcessor(writer).processTasks(taskurls);
+		writer.close();
 	}
 }
