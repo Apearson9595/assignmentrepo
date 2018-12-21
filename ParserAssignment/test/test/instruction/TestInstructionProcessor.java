@@ -1,9 +1,11 @@
-package instruction;
+package test.instruction;
 
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import org.junit.Test;
+
+import instruction.InstructionProcessor;
 
 public class TestInstructionProcessor {
 

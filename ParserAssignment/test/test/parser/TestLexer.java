@@ -1,4 +1,4 @@
-package parser;
+package test.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
